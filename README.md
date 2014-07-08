@@ -6,6 +6,8 @@ Basic http wrapper to call the docker remote api from node
 npm install docker-remote-api
 ```
 
+[![build status](http://img.shields.io/travis/mafintosh/docker-remote-api.svg?style=flat)](http://travis-ci.org/mafintosh/docker-remote-api)
+
 ## Usage
 
 ``` js
