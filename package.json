@@ -13,7 +13,7 @@
     "tape": "^2.13.3"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tape test.js"
   },
   "repository": {
     "type": "git",
