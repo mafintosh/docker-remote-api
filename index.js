@@ -98,7 +98,13 @@ API.prototype.request = function(method, path, opts, cb) {
 
   if (opts.timeout) req.setTimeout(opts.timeout, destroyer(req))
   if (opts.json && opts.json !== true) opts.body = JSON.stringify(opts.json)
-  if (opts.registry) (opts.headers = opts.headers || {})['X-Registry-Auth'] = new Buffer(JSON.stringify(opts.registry)+'\n').toString('base64')
+
+  var headers = opts.headers
+  if (headers) {
+    Object.keys(headers).forEach(function(name) {
+      if (typeof headers[name] === 'object' && headers[name]) headers[name] = new Buffer(JSON.stringify(headers[name])+'\n').toString('base64')
+    })
+  }
 
   req.on('response', function(res) {
     if (res.statusCode > 299) onerror(req, res, cb)
