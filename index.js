@@ -94,17 +94,17 @@ API.prototype.request = function(method, path, opts, cb) {
   opts.method = method
   opts.path = path
 
-  var req = this.http(opts)
-
-  if (opts.timeout) req.setTimeout(opts.timeout, destroyer(req))
-  if (opts.json && opts.json !== true) opts.body = JSON.stringify(opts.json)
-
   var headers = opts.headers
   if (headers) {
     Object.keys(headers).forEach(function(name) {
       if (typeof headers[name] === 'object' && headers[name]) headers[name] = new Buffer(JSON.stringify(headers[name])+'\n').toString('base64')
     })
   }
+
+  var req = this.http(opts)
+
+  if (opts.timeout) req.setTimeout(opts.timeout, destroyer(req))
+  if (opts.json && opts.json !== true) opts.body = JSON.stringify(opts.json)
 
   req.on('response', function(res) {
     if (res.statusCode > 299) onerror(req, res, cb)
