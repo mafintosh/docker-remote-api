@@ -8,7 +8,6 @@ var noop = function() {}
 
 var onjson = function(req, res, cb) {
   res.pipe(concat({encoding:'buffer'}, function(buf) {
-    if (!buf.length && res.statusCode === 204) return cb(null, null)
     try {
       buf = JSON.parse(buf)
     } catch (err) {
@@ -16,6 +15,13 @@ var onjson = function(req, res, cb) {
     }
     cb(null, buf)
   }))
+}
+
+var onempty = function(req, res, cb) {
+  res.on('end', function() {
+    cb(null, null)
+  })
+  res.resume()
 }
 
 var onbuffer = function(req, res, cb) {
@@ -113,6 +119,7 @@ API.prototype.request = function(method, path, opts, cb) {
 
   req.on('response', function(res) {
     if (res.statusCode > 299) onerror(req, res, cb)
+    else if (res.statusCode === 204) onempty(req, res, cb)
     else if (opts.buffer) onbuffer(req, res, cb)
     else if (opts.json) onjson(req, res, cb)
     else onstream(req, res, cb)
@@ -124,7 +131,10 @@ API.prototype.request = function(method, path, opts, cb) {
   })
 
   if (method !== 'POST' && method !== 'PUT') req.end()
-  else if (opts.body) {
+  else if (opts.body === null) {
+    req.setHeader('Content-Length', 0)
+    req.end()
+  } else if (opts.body) {
     req.setHeader('Content-Length', Buffer.isBuffer(opts.body) ? opts.body.length : Buffer.byteLength(opts.body))
     req.end(opts.body)
   }
