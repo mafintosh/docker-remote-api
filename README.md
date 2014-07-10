@@ -59,6 +59,8 @@ Send a `POST` request. Similar options as `request.get` except it returns a requ
 that you can pipe a request body to. If you are sending json you can set `options.json = body`
 and `body` will be stringified and sent as the request body.
 
+If you do not have a request body set `body: null` or remember to call `post.end()`
+
 #### `put = request.put(path, [options], cb)`
 
 Send a `PUT` request. Similar options as `request.put`
