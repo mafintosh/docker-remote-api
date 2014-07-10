@@ -63,6 +63,9 @@ var API = function(remote, defaults) {
   }
 
   this.defaults = xtend(host(remote), defaults)
+  this.defaultHeaders = this.defaults.headers
+  delete this.defaults.headers
+
   this.http = (this.defaults.protocol === 'https:' ? require('https') : require('http')).request
 }
 
@@ -94,6 +97,7 @@ API.prototype.request = function(method, path, opts, cb) {
 
   cb = once(cb || noop)
   opts = xtend(this.defaults, opts)
+  if (this.defaultHeaders) opts.headers = xtend(this.defaultHeaders, opts.headers)
 
   if (opts.qs) path += '?'+querystring.stringify(opts.qs)
   if (opts.version) path = '/'+opts.version+path
