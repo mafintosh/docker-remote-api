@@ -7,6 +7,7 @@ var concat = require('concat-stream')
 var noop = function() {}
 
 var onjson = function(req, res, cb) {
+  if (res.statusCode === 204) return cb(null, null)
   res.pipe(concat({encoding:'buffer'}, function(buf) {
     try {
       buf = JSON.parse(buf)
