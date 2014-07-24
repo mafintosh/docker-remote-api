@@ -1,7 +1,7 @@
 {
   "name": "docker-remote-api",
   "description": "Basic http wrapper to call the docker remote api from node",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "main": "index.js",
   "dependencies": {
     "concat-stream": "^1.4.6",
