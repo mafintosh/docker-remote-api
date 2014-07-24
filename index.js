@@ -67,6 +67,7 @@ var API = function(remote, defaults) {
   delete this.defaults.headers
 
   this.http = (this.defaults.protocol === 'https:' ? require('https') : require('http')).request
+  this.remote = this.defaults.socketPath ? 'http+unix://'+this.defaults.socketPath : this.defaults.protocol+'//'+this.defaults.host+':'+this.defaults.port
 }
 
 API.prototype.get = function(path, opts, cb) {
