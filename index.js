@@ -43,7 +43,7 @@ var onstream = function(req, res, cb) {
 var onerror = function(req, res, cb) {
   res.pipe(concat({encoding:'buffer'}, function(buf) {
     var err = new Error(buf.toString().trim() || 'Bad status code: '+res.statusCode)
-    err.statusCode = res.statusCode
+    err.status = res.statusCode
     cb(err)
   }))
 }
