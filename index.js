@@ -55,10 +55,9 @@ var destroyer = function(req) {
 }
 
 var API = function(opts) {
-  if (opts && opts.type === API.prototype.type && typeof opts.request === 'function') return opts
   if (!(this instanceof API)) return new API(opts)
-  if (!opts) opts = {}
   if (typeof opts === 'string' || typeof opts === 'number') opts = {host:opts}
+  if (!opts) opts = {}
 
   this.defaults = xtend(opts, host(opts.host))
   this.http = (this.defaults.protocol === 'https:' ? require('https') : require('http')).request
