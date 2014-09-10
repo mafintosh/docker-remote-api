@@ -55,6 +55,7 @@ var destroyer = function(req) {
 }
 
 var API = function(remote, defaults) {
+  if (remote && remote.type === API.prototype.type && typeof remote.request === 'function') return remote
   if (!(this instanceof API)) return new API(remote, defaults)
 
   if (typeof remote === 'object' && !defaults) {
@@ -69,6 +70,8 @@ var API = function(remote, defaults) {
   this.http = (this.defaults.protocol === 'https:' ? require('https') : require('http')).request
   this.remote = this.defaults.socketPath ? 'http+unix://'+this.defaults.socketPath : this.defaults.protocol+'//'+this.defaults.host+':'+this.defaults.port
 }
+
+API.prototype.type = 'docker-remote-api'
 
 API.prototype.get = function(path, opts, cb) {
   return this.request('GET', path, opts, cb)
