@@ -30,7 +30,7 @@ request.get('/images/json', function(err, stream) {
 #### `request = docker(options)`
 
 `options.host` should be an address to a docker instance i.e. `/var/run/docker.sock` or `127.0.0.1:2375`.
-all other options will be used as default values for `get`, `post`, `put`, `delete`.
+All other options will be used as default values for `get`, `post`, `put`, `delete`.
 
 If you omit the `options.host` it will be set to `$DOCKER_HOST`
 
