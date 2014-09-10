@@ -12,7 +12,9 @@ npm install docker-remote-api
 
 ``` js
 var docker = require('docker-remote-api')
-var request = docker('/var/run/docker.sock')
+var request = docker({
+  host: '/var/run/docker.sock'
+})
 
 request.get('/images/json', {json:true}, function(err, images) {
   if (err) throw err
