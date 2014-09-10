@@ -54,21 +54,15 @@ var destroyer = function(req) {
   }
 }
 
-var API = function(remote, defaults) {
-  if (remote && remote.type === API.prototype.type && typeof remote.request === 'function') return remote
-  if (!(this instanceof API)) return new API(remote, defaults)
+var API = function(opts) {
+  if (opts && opts.type === API.prototype.type && typeof opts.request === 'function') return opts
+  if (!(this instanceof API)) return new API(opts)
+  if (!opts) opts = {}
+  if (typeof opts === 'string' || typeof opts === 'number') opts = {host:opts}
 
-  if (typeof remote === 'object' && !defaults) {
-    defaults = remote
-    remote = null
-  }
-
-  this.defaults = xtend(host(remote), defaults)
-  this.defaultHeaders = this.defaults.headers
-  delete this.defaults.headers
-
+  this.defaults = xtend(opts, host(opts.host))
   this.http = (this.defaults.protocol === 'https:' ? require('https') : require('http')).request
-  this.remote = this.defaults.socketPath ? 'http+unix://'+this.defaults.socketPath : this.defaults.protocol+'//'+this.defaults.host+':'+this.defaults.port
+  this.host = this.defaults.socketPath ? 'http+unix://'+this.defaults.socketPath : this.defaults.protocol+'//'+this.defaults.host+':'+this.defaults.port
 }
 
 API.prototype.type = 'docker-remote-api'
@@ -101,7 +95,6 @@ API.prototype.request = function(method, path, opts, cb) {
 
   cb = once(cb || noop)
   opts = xtend(this.defaults, opts)
-  if (this.defaultHeaders) opts.headers = xtend(this.defaultHeaders, opts.headers)
 
   if (opts.qs) path += '?'+querystring.stringify(opts.qs)
   if (opts.version) path = '/'+opts.version+path

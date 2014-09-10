@@ -27,12 +27,12 @@ request.get('/images/json', function(err, stream) {
 
 ## API
 
-#### `request = docker([remote], defaults)`
+#### `request = docker(options)`
 
-`remote` should be an address to a docker instance i.e. `/var/run/docker.sock` or `127.0.0.1:2375`.
-`defaults` will be used as default values for `get`, `post`, `put`, `delete`.
+`options.host` should be an address to a docker instance i.e. `/var/run/docker.sock` or `127.0.0.1:2375`.
+all other options will be used as default values for `get`, `post`, `put`, `delete`.
 
-If you omit the `remote` it will be set to `$DOCKER_HOST`
+If you omit the `options.host` it will be set to `$DOCKER_HOST`
 
 #### `request.get(path, [options], cb)`
 
