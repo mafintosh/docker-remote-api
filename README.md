@@ -34,7 +34,7 @@ request.get('/images/json', function(err, stream) {
 `options.host` should be an address to a docker instance i.e. `/var/run/docker.sock` or `127.0.0.1:2375`.
 All other options will be used as default values for `get`, `post`, `put`, `delete`.
 
-If you omit the `options.host` it will be set to `$DOCKER_HOST`
+If you omit the `options.host` it will be set to `$DOCKER_HOST` or `/var/run/docker.sock`
 
 #### `request.get(path, [options], cb)`
 
@@ -46,8 +46,10 @@ Send a `GET` request to the remote api. `path` should be the request path i.e. `
   qs: {foo:'bar'},        // set querystring parameters
   headers: {name: '...'}, // set request headers
   json: true,             // return json instead of a stream
+  buffer: true,           // return a buffer instead of a stream
+  drain: true,            // will drain the response stream before calling cb
   timeout: 20000,         // set request timeout
-  version: 'v1.12'        // set explicit api version
+  version: 'v1.14'        // set explicit api version
 }
 ```
 
