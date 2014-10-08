@@ -120,7 +120,7 @@ API.prototype.request = function(method, path, opts, cb) {
   req.on('response', function(res) {
     if (res.statusCode === 304) return onempty(req, res, cb)
     else if (res.statusCode > 299) onerror(req, res, cb)
-    else if (res.statusCode === 204) onempty(req, res, cb)
+    else if (res.statusCode === 204 || opts.drain) onempty(req, res, cb)
     else if (opts.buffer) onbuffer(req, res, cb)
     else if (opts.json) onjson(req, res, cb)
     else onstream(req, res, cb)
