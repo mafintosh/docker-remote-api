@@ -20,10 +20,10 @@ var server = http.createServer(function(req, res) {
 
 server.listen(0, function() {
   server.unref()
+  
+  var request = docker({ssl:false, host:server.address().port})
 
   tape('get json', function(t) {
-    var request = docker(server.address().port)
-
     request.get('/', {json:true, qs:{foo:'bar'}}, function(err, body) {
       t.ok(!err)
       t.same(body.method, 'GET')
@@ -33,8 +33,6 @@ server.listen(0, function() {
   })
 
   tape('get stream', function(t) {
-    var request = docker(server.address().port)
-
     request.get('/', function(err, response) {
       t.ok(!err)
       response.pipe(concat(function(buf) {
@@ -45,8 +43,6 @@ server.listen(0, function() {
   })
 
   tape('post stream', function(t) {
-    var request = docker(server.address().port)
-
     var post = request.post('/', function(err, response) {
       t.ok(!err)
       response.pipe(concat(function(buf) {
@@ -60,8 +56,6 @@ server.listen(0, function() {
   })
 
   tape('post json', function(t) {
-    var request = docker(server.address().port)
-
     request.post('/', {json:{method:'GET', path:'/'}}, function(err, body) {
       t.ok(!err)
       t.same(body.method, 'GET')
@@ -71,8 +65,6 @@ server.listen(0, function() {
   })
 
   tape('get error', function(t) {
-    var request = docker(server.address().port)
-
     request.get('/error', function(err) {
       t.ok(err)
       t.same(err.message, 'error message')

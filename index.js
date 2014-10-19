@@ -6,6 +6,20 @@ var concat = require('concat-stream')
 
 var noop = function() {}
 
+var readSync = function(dir, name) {
+  try {
+    return require('fs').readFileSync(require('path').join(dir, name))
+  } catch (err) {
+    return null
+  }
+}
+
+var PATH = process.env.DOCKER_CERT_PATH
+var CERT = PATH && readSync(PATH, 'cert.pem')
+var KEY  = PATH && readSync(PATH, 'key.pem')
+var CA   = PATH && readSync(PATH, 'ca.pem')
+var TLS  = process.env.DOCKER_TLS_VERIFY === '1' || process.env.DOCKER_TLS_VERIFY === 'true'
+
 var onjson = function(req, res, cb) {
   res.pipe(concat({encoding:'buffer'}, function(buf) {
     try {
@@ -59,7 +73,9 @@ var API = function(opts) {
   if (typeof opts === 'string' || typeof opts === 'number') opts = {host:opts}
   if (!opts) opts = {}
 
-  this.defaults = xtend(opts, host(opts.host))
+  this.defaults = xtend({cert:CERT, ca:CA, key:KEY, ssl:TLS}, opts, host(opts.host)) // TODO: move the defaults stuff to docker-host?
+  if (this.defaults.ssl || this.defaults.tls || this.defaults.https) this.defaults.protocol = 'https:'
+
   this.http = (this.defaults.protocol === 'https:' ? require('https') : require('http')).request
   this.host = this.defaults.socketPath ? 'http+unix://'+this.defaults.socketPath : this.defaults.protocol+'//'+this.defaults.host+':'+this.defaults.port
 }
