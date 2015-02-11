@@ -121,6 +121,7 @@ API.prototype.request = function(method, path, opts, cb) {
   if (headers) {
     Object.keys(headers).forEach(function(name) {
       if (typeof headers[name] === 'object' && headers[name]) headers[name] = new Buffer(JSON.stringify(headers[name])+'\n').toString('base64')
+      if (!headers[name]) delete headers[name]
     })
   }
 
