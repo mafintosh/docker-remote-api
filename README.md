@@ -67,7 +67,7 @@ If you do not have a request body set `body: null` or remember to call `post.end
 
 #### `put = request.put(path, [options], cb)`
 
-Send a `PUT` request. Similar options as `request.put`
+Send a `PUT` request. Similar options as `request.post`
 
 ## License
 
