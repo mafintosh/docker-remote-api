@@ -120,7 +120,7 @@ API.prototype.request = function(method, path, opts, cb) {
   var headers = opts.headers
   if (headers) {
     Object.keys(headers).forEach(function(name) {
-      if (typeof headers[name] === 'object' && headers[name]) headers[name] = new Buffer(JSON.stringify(headers[name])+'\n').toString('base64')
+      if (typeof headers[name] === 'object' && headers[name]) headers[name] = Buffer.from(JSON.stringify(headers[name])+'\n').toString('base64')
       if (!headers[name]) delete headers[name]
     })
   }
