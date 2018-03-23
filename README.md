@@ -36,6 +36,8 @@ All other options will be used as default values for `get`, `post`, `put`, `dele
 
 If you omit the `options.host` it will be set to `$DOCKER_HOST` or `/var/run/docker.sock`
 
+If `options.ssl` is `true`, the library will look in `$DOCKER_CERT_PATH` for a certificate (`cert.pem`), key (`key.pem`), and certificate authority (`ca.pem`).
+
 #### `request.get(path, [options], cb)`
 
 Send a `GET` request to the remote api. `path` should be the request path i.e. `/images/json`.
