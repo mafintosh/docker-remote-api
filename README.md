@@ -7,6 +7,7 @@ npm install docker-remote-api
 ```
 
 [![build status](http://img.shields.io/travis/mafintosh/docker-remote-api.svg?style=flat)](http://travis-ci.org/mafintosh/docker-remote-api)
+[![install size](https://packagephobia.now.sh/badge?p=docker-remote-api)](https://packagephobia.now.sh/result?p=docker-remote-api)
 
 ## Usage
 
