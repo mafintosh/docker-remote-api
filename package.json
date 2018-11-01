@@ -3,6 +3,7 @@
   "description": "Basic http wrapper to call the docker remote api from node",
   "version": "5.0.0",
   "main": "index.js",
+  "types": "types.d.ts",
   "dependencies": {
     "concat-stream": "^1.4.6",
     "docker-host": "^3.0.0",
