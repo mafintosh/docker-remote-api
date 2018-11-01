@@ -28,6 +28,18 @@ request.get('/images/json', function(err, stream) {
 })
 ```
 
+### TypeScript
+
+Change `var` to `import` in order to tell typescript to use the declarations like so:
+
+``` ts
+import docker = require('docker-remote-api')
+var request = docker({
+  host: '/var/run/docker.sock'
+})
+```
+
+
 ## API
 
 #### `request = docker(options)`
